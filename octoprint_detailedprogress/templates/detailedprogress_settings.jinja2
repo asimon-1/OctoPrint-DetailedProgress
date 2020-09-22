@@ -27,55 +27,55 @@
     </h4>
   </div>
 
-	<div class="control-group">
-		<label class="control-label">{{ _('All Messages') }}</label>
-		<div class="controls">
-			<select multiple="multiple" size="6" id="dtPrg_selMsg"
+    <div class="control-group">
+        <label class="control-label">{{ _('All Messages') }}</label>
+        <div class="controls">
+            <select multiple="multiple" size="6" id="dtPrg_selMsg"
                     data-bind="options:settings.plugins.detailedprogress.all_messages, selectedOptions:settings.plugins.detailedprogress.messages"></select>
-		</div>
-		<div class="controls">
-			<button class="btn" id="dtPrg_removeSelected">{{ _('Delete selected') }}</button>
-		</div>
-		<div class="controls">
-			<input type="text" id="dtPrg_msgToAdd">
-			<button class="btn" id="dtPrg_addMsg">{{ _('Add message') }}</button>
-		</div>
-	</div>  
+        </div>
+        <div class="controls">
+            <button class="btn" id="dtPrg_removeSelected">{{ _('Delete selected') }}</button>
+        </div>
+        <div class="controls">
+            <input type="text" id="dtPrg_msgToAdd">
+            <button class="btn" id="dtPrg_addMsg">{{ _('Add message') }}</button>
+        </div>
+    </div>  
 
   <h4>Format Settings<h4>
-	
+    
   <div class="control-group">
-		<label class="control-label">{{ _('Rotation time in seconds') }}</label>
-		<div class="controls">
-			<input type="text" class="input-block-level" data-bind="value: settings.plugins.detailedprogress.time_to_change" size="10">
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">{{ _('eta_strftime') }}</label>
-		<div class="controls">
-			<input type="text" class="input-block-level" data-bind="value: settings.plugins.detailedprogress.eta_strftime">
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">{{ _('etl_format') }}</label>
-		<div class="controls">
-			<input type="text" class="input-block-level" data-bind="value: settings.plugins.detailedprogress.etl_format">
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">{{ _('Print done message') }}</label>
-		<div class="controls">
-			<input type="text" class="input-block-level" data-bind="value: settings.plugins.detailedprogress.print_done_message">
-		</div>
-	</div>
+        <label class="control-label">{{ _('Rotation time in seconds') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.detailedprogress.time_to_change" size="10">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{{ _('eta_strftime') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.detailedprogress.eta_strftime">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{{ _('etl_format') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.detailedprogress.etl_format">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{{ _('Print done message') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.plugins.detailedprogress.print_done_message">
+        </div>
+    </div>
   
   <h4>Progress bar update<h4>
-	
+    
   <div class="control-group">
-		<label class="control-label">{{ _('Send M73 Progress Updates') }}</label>
-		<div class="controls">
+        <label class="control-label">{{ _('Send M73 Progress Updates') }}</label>
+        <div class="controls">
       <input type="checkbox" class="input-block-level form-check-input" data-bind="checked: settings.plugins.detailedprogress.use_M73">
-		</div>
-	</div>
+        </div>
+    </div>
 
 </form>
