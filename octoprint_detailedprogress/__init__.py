@@ -227,11 +227,9 @@ class DetailedProgress(
                 displayVersion=self._plugin_version,
                 # version check: github repository
                 type="github_release",
-                user="tpmullan",
+                user="asimon-1",
                 repo="OctoPrint-DetailedProgress",
                 current=self._plugin_version,
-                # update method: pip
-                pip="https://github.com/tpmullan/OctoPrint-DetailedProgress/archive/{target_version}.zip",
             )
         )
 
