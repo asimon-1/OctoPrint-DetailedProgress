@@ -9,11 +9,13 @@ import traceback
 from octoprint.events import Events
 
 
-class DetailedProgress(octoprint.plugin.EventHandlerPlugin,
-                       octoprint.plugin.SettingsPlugin,
-                       octoprint.plugin.TemplatePlugin,
-                       octoprint.plugin.AssetPlugin,
-                       octoprint.plugin.StartupPlugin):
+class DetailedProgress(
+    octoprint.plugin.EventHandlerPlugin,
+    octoprint.plugin.SettingsPlugin,
+    octoprint.plugin.TemplatePlugin,
+    octoprint.plugin.AssetPlugin,
+    octoprint.plugin.StartupPlugin,
+):
     _last_updated = 0.0
     _last_message = 0
     _repeat_timer = None
@@ -33,7 +35,9 @@ class DetailedProgress(octoprint.plugin.EventHandlerPlugin,
             self._messages = self._settings.get(["messages"])
             self._M73 = self._settings.get(["use_M73"])
             self._PrusaStyle = self._settings.get(["M73_PrusaStyle"])
-            self._repeat_timer = octoprint.util.RepeatedTimer(self._settings.get_int(["time_to_change"]), self.do_work)
+            self._repeat_timer = octoprint.util.RepeatedTimer(
+                self._settings.get_int(["time_to_change"]), self.do_work
+            )
             self._repeat_timer.start()
         elif event in (Events.PRINT_DONE, Events.PRINT_FAILED, Events.PRINT_CANCELLED):
             if self._repeat_timer is not None:
@@ -64,7 +68,11 @@ class DetailedProgress(octoprint.plugin.EventHandlerPlugin,
                 self._update_progress(currentData)
 
         except Exception as e:
-            self._logger.info("Caught an exception {0}\nTraceback:{1}".format(e, traceback.format_exc()))
+            self._logger.info(
+                "Caught an exception {0}\nTraceback:{1}".format(
+                    e, traceback.format_exc()
+                )
+            )
 
     def _update_progress(self, currentData):
         progressPerc = int(currentData["progress"]["completion"])
@@ -77,11 +85,15 @@ class DetailedProgress(octoprint.plugin.EventHandlerPlugin,
 
     def _sanitize_current_data(self, currentData):
         if currentData["progress"]["printTimeLeft"] is None:
-            currentData["progress"]["printTimeLeft"] = currentData["job"]["estimatedPrintTime"]
+            currentData["progress"]["printTimeLeft"] = currentData["job"][
+                "estimatedPrintTime"
+            ]
         if currentData["progress"]["filepos"] is None:
             currentData["progress"]["filepos"] = 0
         if currentData["progress"]["printTime"] is None:
-            currentData["progress"]["printTime"] = currentData["job"]["estimatedPrintTime"]
+            currentData["progress"]["printTime"] = currentData["job"][
+                "estimatedPrintTime"
+            ]
 
         currentData["progress"]["printTimeLeftString"] = "No ETL yet"
         currentData["progress"]["ETA"] = "No ETA yet"
@@ -97,7 +109,9 @@ class DetailedProgress(octoprint.plugin.EventHandlerPlugin,
                 accuracy = "Bad"
             else:
                 accuracy = "ERR"
-                self._logger.debug("Caught unmapped accuracy value: {0}".format(accuracy))
+                self._logger.debug(
+                    "Caught unmapped accuracy value: {0}".format(accuracy)
+                )
         else:
             accuracy = "N/A"
         currentData["progress"]["accuracy"] = accuracy
@@ -106,15 +120,21 @@ class DetailedProgress(octoprint.plugin.EventHandlerPlugin,
         # Add additional data
         try:
             currentData["progress"]["printTimeString"] = self._get_time_from_seconds(
-                currentData["progress"]["printTime"])
-            currentData["progress"]["printTimeLeftString"] = self._get_time_from_seconds(
-                currentData["progress"]["printTimeLeft"])
-            currentData["progress"]["ETA"] = time.strftime(self._eta_strftime, time.localtime(
-                time.time() + currentData["progress"]["printTimeLeft"]))
+                currentData["progress"]["printTime"]
+            )
+            currentData["progress"][
+                "printTimeLeftString"
+            ] = self._get_time_from_seconds(currentData["progress"]["printTimeLeft"])
+            currentData["progress"]["ETA"] = time.strftime(
+                self._eta_strftime,
+                time.localtime(time.time() + currentData["progress"]["printTimeLeft"]),
+            )
         except Exception as e:
             self._logger.debug(
-                "Caught an exception trying to parse data: {0}\n Error is: {1}\nTraceback:{2}".format(currentData, e,
-                                                                                                      traceback.format_exc()))
+                "Caught an exception trying to parse data: {0}\n Error is: {1}\nTraceback:{2}".format(
+                    currentData, e, traceback.format_exc()
+                )
+            )
 
         return currentData
 
@@ -130,7 +150,7 @@ class DetailedProgress(octoprint.plugin.EventHandlerPlugin,
             ETA=currentData["progress"]["ETA"],
             filepos=currentData["progress"]["filepos"],
             accuracy=currentData["progress"]["accuracy"],
-            filename=currentData["progress"]["filename"]
+            filename=currentData["progress"]["filename"],
         )
 
     def _get_time_from_seconds(self, seconds):
@@ -145,10 +165,23 @@ class DetailedProgress(octoprint.plugin.EventHandlerPlugin,
         return self._etl_format.format(**locals())
 
     def _get_host_ip(self):
-        return [l for l in (
-            [ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")][:1], [
-                [(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in
-                 [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) if l][0][0]
+        return [
+            l
+            for l in (
+                [
+                    ip
+                    for ip in socket.gethostbyname_ex(socket.gethostname())[2]
+                    if not ip.startswith("127.")
+                ][:1],
+                [
+                    [
+                        (s.connect(("8.8.8.8", 53)), s.getsockname()[0], s.close())
+                        for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]
+                    ][0][1]
+                ],
+            )
+            if l
+        ][0][0]
 
     ##~~ StartupPlugin
     def on_after_startup(self):
@@ -168,18 +201,18 @@ class DetailedProgress(octoprint.plugin.EventHandlerPlugin,
             use_M73=True,
             M73_PrusaStyle=False,
             all_messages=[
-                '{filename}',
-                '{completion:.2f}% complete',
-                'ETL {printTimeLeft}',
-                'ETA {ETA}',
-                '{accuracy} accuracy'
+                "{filename}",
+                "{completion:.2f}% complete",
+                "ETL {printTimeLeft}",
+                "ETA {ETA}",
+                "{accuracy} accuracy",
             ],
             messages=[
-                '{completion:.2f}% complete',
-                'ETL {printTimeLeft}',
-                'ETA {ETA}',
-                '{accuracy} accuracy'
-            ]
+                "{completion:.2f}% complete",
+                "ETL {printTimeLeft}",
+                "ETA {ETA}",
+                "{accuracy} accuracy",
+            ],
         )
 
     ##-- Template hooks
@@ -192,15 +225,13 @@ class DetailedProgress(octoprint.plugin.EventHandlerPlugin,
             detailedprogress=dict(
                 displayName="DetailedProgress Plugin",
                 displayVersion=self._plugin_version,
-
                 # version check: github repository
                 type="github_release",
                 user="tpmullan",
                 repo="OctoPrint-DetailedProgress",
                 current=self._plugin_version,
-
                 # update method: pip
-                pip="https://github.com/tpmullan/OctoPrint-DetailedProgress/archive/{target_version}.zip"
+                pip="https://github.com/tpmullan/OctoPrint-DetailedProgress/archive/{target_version}.zip",
             )
         )
 
